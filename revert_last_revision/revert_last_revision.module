@@ -1,0 +1,39 @@
+<?php
+/**
+ * @file
+ * Create the necessary hooks to make a revert to last revision vbo action.
+ *
+ * Originally found from:
+ * https://www.drupal.org/node/1166630
+ */
+
+/**
+ * Implements hook_action_info().
+ */
+function revert_last_revision_action_info() {
+  $action = array(
+    'REVERT_LAST_REVISION' => array(
+      'label'        => t('Revert to Last Revision'),
+      'type'         => 'node',
+      'configurable' => FALSE,
+      'triggers'     => array('any'),
+      'behavior'     => array('view_property'),
+    ),
+  );
+  return $action;
+}
+
+/**
+ * Action function for REVERT_LAST_REVISION.
+ */
+function REVERT_LAST_REVISION(&$entity, $context = array()) {
+  $revision_list = node_revision_list($entity);
+  unset($revision_list[$entity->vid]);
+  if (count($revision_list) > 0) {
+    $last_revision = max(array_keys($revision_list));
+    $entity = entity_revision_load('node', $last_revision);
+    $entity->revision = TRUE;
+    $entity->log = "Reverted via bulk operation action.";
+    entity_save('node', $entity);
+  }
+}

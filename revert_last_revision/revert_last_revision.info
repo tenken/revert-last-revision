@@ -1,0 +1,5 @@
+name = Revert Last Revision
+description = This module adds an action for VBO usage that reverts to the last revision of a Node.
+core = 7.x
+version = 7.x-1.0
+package = Other
