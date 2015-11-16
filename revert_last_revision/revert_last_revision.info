@@ -3,3 +3,7 @@ description = This module adds an action for VBO usage that reverts to the last 
 core = 7.x
 version = 7.x-1.0
 package = Other
+
+dependencies[]=views
+dependencies[]=views_bulk_operations
+
