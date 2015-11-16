@@ -9,4 +9,4 @@ COMPATIBILITY NOTES
 
 AUTHOR/MAINTAINER
 ======================
-- David Gurba, contact me through the issue queue of this project or my drupal contact form: https://www.drupal.org/user/1059226/contact
+- David Gurba, contact me through project issue queue of this project or my drupal contact form: https://www.drupal.org/user/1059226/contact
