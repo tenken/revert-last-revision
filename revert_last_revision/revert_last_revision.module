@@ -5,6 +5,10 @@
  *
  * Originally found from:
  * https://www.drupal.org/node/1166630
+ *
+ * The above didnt work fully so I debugged this for bulk and single nodes
+ * using an sqlite drupal environment.
+ * http://drupal.stackexchange.com/questions/180838/revert-to-last-revision-action/
  */
 
 /**
@@ -12,11 +16,14 @@
  */
 function revert_last_revision_action_info() {
   $action = array(
-    'REVERT_LAST_REVISION' => array(
+    'revert_to_last_revision' => array(
       'label'        => t('Revert to Last Revision'),
       'type'         => 'node',
       'configurable' => FALSE,
       'triggers'     => array('any'),
+      // I believe this view_property causes the 2nd save to not occur as it's
+      // not a save action -- aka in our custom function we do our own save
+      // which will not be overwritten.
       'behavior'     => array('view_property'),
     ),
   );
@@ -24,9 +31,9 @@ function revert_last_revision_action_info() {
 }
 
 /**
- * Action function for REVERT_LAST_REVISION.
+ * Action function for revert_to_last_revision.
  */
-function REVERT_LAST_REVISION(&$entity, $context = array()) {
+function revert_to_last_revision(&$entity, $context = array()) {
   $revision_list = node_revision_list($entity);
   unset($revision_list[$entity->vid]);
   if (count($revision_list) > 0) {
